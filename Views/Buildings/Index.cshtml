@@ -1,0 +1,172 @@
+﻿@model List<WebApplication1.Models.ResidentialBuilding>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #333;
+            margin: 20px 0;
+            padding-left: 10px;
+            border-left: 4px solid #667eea;
+            text-align: center;
+            border-left: none;
+        }
+
+        .nav-links {
+            margin-top: 20px;
+            text-align: center;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+            .nav-links a {
+                margin: 0 15px;
+                text-decoration: none;
+                color: #667eea;
+                font-weight: bold;
+            }
+
+        /* ИЗМЕНЕНА ФОРМА */
+        form {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        /* ИЗМЕНЕНЫ ЛЕЙБЛЫ */
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        /* ИЗМЕНЕНЫ ПОЛЯ ВВОДА */
+        input {
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        /* ИЗМЕНЕНА КНОПКА */
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+            button:hover {
+                transform: scale(1.02);
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .update-btn {
+            background: #f39c12;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .search-box {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏗️ Управление строительством</h1>
+
+        <div class="nav-links">
+            <a href="/Buildings/Index">🏠 Здания</a>
+            <a href="/Buildings/Index1">👷 Рабочие</a>
+            <a href="/Buildings/Index2">📦 Материалы</a>
+        </div>
+
+		<div class="nav-links">
+			<a href="/Buildings/komer">🏠 Список зданий</a>
+			<a href="/Buildings/resident">🏠 Редактирование жилых зданий</a>
+		</div>
+
+        <h2>➕ Добавить новое здание</h2>
+        <form asp-action="AddBuilding" method="post">
+            <label>Название:</label>
+            <input type="text" name="Name" required />
+            <br />
+            <label>Адрес:</label>
+            <input type="text" name="Address" required />
+            <br />
+            <label>Год постройки:</label>
+            <input type="number" name="Year" required />
+            <br />
+            <label>Цена (млн ₽):</label>
+            <input type="number" name="Price" required />
+            <br />
+            <label>Количество квартир:</label>
+            <input type="number" name="Apartments" />
+            <br />
+            <button type="submit">🏠 Добавить здание</button>
+        </form> 
+    </div>
+</body>
+</html>

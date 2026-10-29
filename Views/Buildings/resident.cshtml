@@ -1,0 +1,235 @@
+﻿@model List<WebApplication1.Models.ResidentialBuilding>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+        min-height: 100vh;
+    }
+
+    .container {
+        max-width: 1300px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+
+    .nav-links {
+        text-align: center;
+        padding: 15px;
+        background: #f0f2f5;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+        .nav-links a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+            .nav-links a:hover {
+                background: #667eea;
+                color: white;
+            }
+
+    .search-box {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+        border: 1px solid #e0e0e0;
+    }
+
+        .search-box h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            padding: 10px;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            width: 250px;
+        }
+
+            .search-box input:focus {
+                outline: none;
+                border-color: #667eea;
+            }
+
+        .search-box button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+            .search-box button:hover {
+                background: #5a67d8;
+            }
+
+    h2 {
+        color: #333;
+        margin: 20px 0;
+        padding-left: 10px;
+        border-left: 4px solid #667eea;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+        background: #667eea;
+        color: white;
+    }
+
+    tr:hover {
+        background: #f8f9fa;
+    }
+
+    .delete-btn {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 5px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+
+    .update-btn {
+        background: #27ae60;
+        color: white;
+        border: none;
+        padding: 5px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.3s;
+    }
+
+        .update-btn:hover {
+            background: #219a52;
+            transform: scale(1.02);
+        }
+
+    form {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    input[type="number"] {
+        padding: 5px 8px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-size: 12px;
+        width: 70px;
+        transition: all 0.3s;
+        text-align: center;
+    }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #27ae60;
+            box-shadow: 0 0 5px rgba(39, 174, 96, 0.3);
+        }
+
+    td:last-child {
+        white-space: nowrap;
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .badge-residential {
+        background: #27ae60;
+        color: white;
+    }
+
+    .badge-commercial {
+        background: #3498db;
+        color: white;
+    }
+</style>
+
+<div class="nav-links">
+    <a href="/Buildings/Index">🏠 Здания</a>
+	<a href="/Buildings/komer">🏠 Список всех зданий</a>
+	<a href="/Buildings/resident">🏠 Список жилых зданий</a>
+</div>
+
+<h2>📋 Список зданий</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Адрес</th>
+            <th>Год</th>
+            <th>Цена</th>
+            <th>Тип</th>
+            <th>Квартир</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var building in Model)
+        {
+            <tr>
+                <td>@building.Id</td>
+                <td>@building.Name</td>
+                <td>@building.Address</td>
+                <td>@building.Year</td>
+                <td>@building.Price млн ₽</td>
+                <td>@building.BuildingType</td>
+                <td>@building.Apartments</td>
+                <td>
+                    <form asp-action="UpdateApartments" method="post" style="display:inline">
+                        <input type="hidden" name="Name" value="@building.Name" />
+                        <input type="number" name="newApartments" value="@building.Apartments" style="width:60px;" />
+                        <button type="submit" class="update-btn">Изменить квартиры</button>
+                    </form>     
+                </td>
+            </tr>
+        }
+    </tbody>
+    
+</table>

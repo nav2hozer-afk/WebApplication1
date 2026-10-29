@@ -1,0 +1,218 @@
+﻿@model List<WebApplication1.Models.Worker>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #2c3e50;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            text-align: center;
+            border-left: none;
+            margin-bottom: 25px;
+        }
+
+        .nav-links {
+            text-align: center;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+            .nav-links a {
+                margin: 0 15px;
+                text-decoration: none;
+                color: #3498db;
+                font-weight: bold;
+            }
+
+                .nav-links a:hover {
+                    background: #3498db;
+                    color: white;
+                    padding: 8px 15px;
+                    border-radius: 5px;
+                }
+        form {
+            background: #ecf0f1;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        input, select {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 14px;
+        }
+
+            input:focus, select:focus {
+                outline: none;
+                border-color: #3498db;
+                box-shadow: 0 0 5px rgba(52,152,219,0.3);
+            }
+
+   
+        button {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+            button:hover {
+                transform: scale(1.02);
+                box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+            .delete-btn:hover {
+                background: #c0392b;
+            }
+
+        .update-btn {
+            background: #f39c12;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+            .update-btn:hover {
+                background: #e67e22;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👷 Управление рабочими</h1>
+
+        <div class="nav-links">
+            <a href="/Buildings/Index">🏠 Здания</a>
+            <a href="/Buildings/Index1">👷 Рабочие</a>
+            <a href="/Buildings/Index2">📦 Материалы</a>
+        </div>
+
+        <h2>➕ Добавить нового рабочего</h2>
+        <form asp-action="AddWorker" method="post">
+            <label>Имя:</label>
+            <input type="text" name="Name" required />
+            <br />
+            <label>Специальность:</label>
+            <select name="Specialization">
+                <option value="Каменщик">Каменщик</option>
+                <option value="Электрик">Электрик</option>
+                <option value="Сварщик">Сварщик</option>
+                <option value="Маляр">Маляр</option>
+            </select>
+            <br />
+            <label>Зарплата (₽):</label>
+            <input type="number" name="Salary" required />
+            <br />
+            <label>ID здания:</label>
+            <input type="number" name="BuildingId" placeholder="ID здания" required />
+            <br />
+            <button type="submit">👷 Добавить рабочего</button>
+        </form>
+
+        <h2>📋 Список рабочих</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Имя</th>
+                    <th>Специальность</th>
+                    <th>Зарплата</th>
+                    <th>ID Здания</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var worker in Model)
+                {
+                    <tr>
+                        <td>@worker.Id</td>
+                        <td>@worker.Name</td>
+                        <td>@worker.Specialization</td>
+                        <td>@worker.Salary ₽</td>
+                        <td>@worker.BuildingId</td>
+                        <td>
+                            <form asp-action="UpdateSalary" method="post" style="display:inline">
+                                <input type="hidden" name="Name" value="@worker.Name" />
+                                <input type="number" name="newSalary" value="@worker.Salary" style="width:70px;" />
+                                <button type="submit" class="update-btn">Изменить ЗП</button>
+                            </form>
+                            <form asp-action="DeleteWorker" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@worker.Id" />
+                                <button type="submit" class="delete-btn" onclick="return confirm('Удалить рабочего?')">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
